@@ -6,6 +6,7 @@
 import Booking from '../models/Booking.js'
 import Worker from '../models/Worker.js'
 import Address from '../models/Address.js'
+import Notification from '../models/Notification.js'
 import { sendSuccess, sendError } from '../utils/response.js'
 
 // ── CREATE BOOKING ──────────────────────────────
@@ -79,6 +80,14 @@ export const createBooking = async (req, res, next) => {
       notes: notes?.trim()
     })
 
+    // 7. Notify worker
+    await Notification.create({
+      user: worker.user, // Worker's User ID
+      title: 'New Booking Request',
+      message: `You have a new booking request for ${bookingDate.toLocaleDateString()}.`,
+      type: 'booking'
+    })
+
     return sendSuccess(res, { booking }, 'Booking created successfully.', 201)
   } catch (error) { next(error) }
 }
@@ -142,6 +151,18 @@ export const updateBookingStatus = async (req, res, next) => {
 
     booking.status = status
     await booking.save()
+
+    // Notify the OTHER party
+    const targetUserId = role === 'customer' 
+      ? (await Worker.findById(booking.worker)).user // If customer canceled, notify worker
+      : booking.customer // If worker updated, notify customer
+
+    await Notification.create({
+      user: targetUserId,
+      title: `Booking ${status}`,
+      message: `A booking for ${new Date(booking.date).toLocaleDateString()} has been marked as ${status}.`,
+      type: 'status_update'
+    })
 
     return sendSuccess(res, { booking }, `Booking marked as ${status}.`)
   } catch (error) { next(error) }

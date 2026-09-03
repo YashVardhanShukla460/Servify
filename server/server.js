@@ -43,6 +43,8 @@ import serviceRoutes  from './src/routes/serviceRoutes.js'
 import workerRoutes   from './src/routes/workerRoutes.js'
 import addressRoutes  from './src/routes/addressRoutes.js'
 import bookingRoutes  from './src/routes/bookingRoutes.js'
+import reviewRoutes   from './src/routes/reviewRoutes.js'
+import notificationRoutes from './src/routes/notificationRoutes.js'
 
 // Middleware
 import notFound from './src/middleware/notFound.js'
@@ -103,6 +105,8 @@ app.use('/api/services',   serviceRoutes)
 app.use('/api/workers',    workerRoutes)
 app.use('/api/addresses',  addressRoutes)
 app.use('/api/bookings',   bookingRoutes)
+app.use('/api/reviews',    reviewRoutes)
+app.use('/api/notifications', notificationRoutes)
 
 // Future routes (added as we build each phase):
 // app.use('/api/users',         userRoutes)

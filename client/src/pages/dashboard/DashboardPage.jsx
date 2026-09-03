@@ -3,12 +3,14 @@ import { Link } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import DashboardLayout from '../../layouts/DashboardLayout'
 import Spinner from '../../components/common/Spinner'
+import ReviewModal from '../../components/common/ReviewModal'
 import { getCustomerBookings, updateBookingStatus } from '../../services/bookingService'
 
 const DashboardPage = () => {
   const { user } = useSelector(state => state.auth)
   const [bookings, setBookings] = useState([])
   const [loading, setLoading] = useState(true)
+  const [reviewBooking, setReviewBooking] = useState(null)
 
   const load = async () => {
     try {
@@ -110,13 +112,21 @@ const DashboardPage = () => {
                   </button>
                 )}
                 {b.status === 'completed' && (
-                  <button className="btn-secondary py-1.5 text-sm" disabled>Review (Next Phase)</button>
+                  <button onClick={() => setReviewBooking(b)} className="btn-primary py-1.5 text-sm">Leave Review</button>
                 )}
               </div>
             </div>
           ))}
         </div>
       </div>
+
+      {reviewBooking && (
+        <ReviewModal 
+          booking={reviewBooking} 
+          onClose={() => setReviewBooking(null)}
+          onSuccess={() => { setReviewBooking(null); load() }}
+        />
+      )}
     </DashboardLayout>
   )
 }
