@@ -93,12 +93,6 @@ const WorkerProfilePage = () => {
               <div className="mt-3 flex justify-center">
                 <StarRating rating={worker.rating} total={worker.totalReviews} />
               </div>
-
-              {/* Book Now button (wired up in Phase 9) */}
-              <button className="btn-primary w-full mt-5" disabled>
-                Book Now (Coming Soon)
-              </button>
-              <p className="text-xs text-gray-400 mt-2">Booking available in the next phase</p>
             </div>
 
             {/* Service Areas */}
@@ -188,7 +182,10 @@ const WorkerProfilePage = () => {
                             <div className="text-blue-600 font-bold text-lg">
                               ₹{p.price.toLocaleString('en-IN')}
                             </div>
-                            <div className="text-gray-400 text-xs">{p.unit}</div>
+                            <div className="text-gray-400 text-xs mb-2">{p.unit}</div>
+                            <Link to={`/book/${worker._id}/${svc._id}`} className="btn-primary py-1.5 px-3 text-xs inline-block">
+                              Book Now
+                            </Link>
                           </div>
                         )}
                       </div>

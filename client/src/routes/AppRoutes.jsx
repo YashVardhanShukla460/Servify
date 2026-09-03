@@ -20,6 +20,7 @@ import RegisterPage      from '../pages/RegisterPage'
 import ServicesPage      from '../pages/ServicesPage'
 import WorkersPage       from '../pages/WorkersPage'
 import WorkerProfilePage from '../pages/WorkerProfilePage'
+import BookingPage       from '../pages/BookingPage'
 import NotFoundPage      from '../pages/NotFoundPage'
 
 // Customer dashboard
@@ -29,6 +30,7 @@ import AddressesPage  from '../pages/dashboard/AddressesPage'
 
 // Worker dashboard
 import WorkerDashboardPage    from '../pages/dashboard/worker/WorkerDashboardPage'
+import WorkerBookingsPage     from '../pages/dashboard/worker/WorkerBookingsPage'
 import WorkerProfileEditPage  from '../pages/dashboard/worker/WorkerProfileEditPage'
 import WorkerAvailabilityPage from '../pages/dashboard/worker/WorkerAvailabilityPage'
 import WorkerPricingPage      from '../pages/dashboard/worker/WorkerPricingPage'
@@ -44,6 +46,14 @@ const AppRoutes = () => {
       <Route path="/services"    element={<ServicesPage />} />
       <Route path="/workers"     element={<WorkersPage />} />
       <Route path="/workers/:id" element={<WorkerProfilePage />} />
+
+      <Route path="/book/:workerId/:serviceId" element={
+        <ProtectedRoute>
+          <RoleRoute role="customer">
+            <BookingPage />
+          </RoleRoute>
+        </ProtectedRoute>
+      } />
 
       {/* ── Customer dashboard (requires login + customer role) ── */}
       <Route path="/dashboard" element={
@@ -73,6 +83,13 @@ const AppRoutes = () => {
         <ProtectedRoute>
           <RoleRoute role="worker">
             <WorkerDashboardPage />
+          </RoleRoute>
+        </ProtectedRoute>
+      } />
+      <Route path="/dashboard/worker/bookings" element={
+        <ProtectedRoute>
+          <RoleRoute role="worker">
+            <WorkerBookingsPage />
           </RoleRoute>
         </ProtectedRoute>
       } />

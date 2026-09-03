@@ -18,8 +18,9 @@ const customerLinks = [
 
 const workerLinks = [
   { to: '/dashboard/worker',              label: '🏠 Overview',    end: true },
+  { to: '/dashboard/worker/bookings',     label: '📅 Bookings'           },
   { to: '/dashboard/worker/profile',      label: '👤 My Profile'         },
-  { to: '/dashboard/worker/availability', label: '📅 Availability'       },
+  { to: '/dashboard/worker/availability', label: '⏰ Availability'       },
   { to: '/dashboard/worker/pricing',      label: '💰 Pricing'            },
 ]
 
