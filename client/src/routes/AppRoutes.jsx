@@ -20,22 +20,24 @@
 import { Routes, Route } from 'react-router-dom'
 
 // Pages
-import HomePage       from '../pages/HomePage'
-import LoginPage      from '../pages/LoginPage'
-import RegisterPage   from '../pages/RegisterPage'
-import ServicesPage   from '../pages/ServicesPage'
-import WorkersPage    from '../pages/WorkersPage'
-import NotFoundPage   from '../pages/NotFoundPage'
+import HomePage          from '../pages/HomePage'
+import LoginPage         from '../pages/LoginPage'
+import RegisterPage      from '../pages/RegisterPage'
+import ServicesPage      from '../pages/ServicesPage'
+import WorkersPage       from '../pages/WorkersPage'
+import WorkerProfilePage from '../pages/WorkerProfilePage'
+import NotFoundPage      from '../pages/NotFoundPage'
 
 const AppRoutes = () => {
   return (
     <Routes>
       {/* Public routes — anyone can access */}
-      <Route path="/"          element={<HomePage />} />
-      <Route path="/login"     element={<LoginPage />} />
-      <Route path="/register"  element={<RegisterPage />} />
-      <Route path="/services"  element={<ServicesPage />} />
-      <Route path="/workers"   element={<WorkersPage />} />
+      <Route path="/"           element={<HomePage />} />
+      <Route path="/login"      element={<LoginPage />} />
+      <Route path="/register"   element={<RegisterPage />} />
+      <Route path="/services"   element={<ServicesPage />} />
+      <Route path="/workers"    element={<WorkersPage />} />
+      <Route path="/workers/:id" element={<WorkerProfilePage />} />
 
       {/*
         Protected routes will be added here in Phase 6:
