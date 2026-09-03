@@ -1,47 +1,42 @@
 /**
- * Auth Slice — manages authentication state globally
+ * authSlice — Redux state for authentication
  *
- * WHAT is a "slice"?
- *   A slice is one piece of the Redux store. It defines:
- *   1. Initial state (what the data looks like at the start)
- *   2. Reducers (functions that update the state)
+ * State shape:
+ *   user:          object | null  — the logged-in user's data
+ *   isLoading:     boolean        — true during login/register API call
+ *   isInitialized: boolean        — true after the initial session check on app load
  *
- * HOW to read auth state in any component:
- *   const { user, isAuthenticated } = useSelector(state => state.auth)
- *
- * HOW to update auth state:
- *   const dispatch = useDispatch()
- *   dispatch(setCredentials({ user }))
- *   dispatch(logout())
+ * WHY isInitialized?
+ *   On page refresh, Redux resets to { user: null }.
+ *   But the HTTP-only cookie still exists in the browser.
+ *   App.jsx calls GET /api/auth/me on startup to restore the session.
+ *   Until that check is done, isInitialized = false.
+ *   ProtectedRoute uses this to show a spinner instead of redirecting to login.
  */
 
 import { createSlice } from '@reduxjs/toolkit'
 
-const initialState = {
-  user: null,           // The logged-in user object (name, email, role, etc.)
-  isAuthenticated: false, // true when user is logged in
-  isLoading: true,      // true while we check if user is still logged in (on page refresh)
-}
-
 const authSlice = createSlice({
   name: 'auth',
-  initialState,
+  initialState: {
+    user:          null,
+    isLoading:     false,
+    isInitialized: false,   // becomes true after first /api/auth/me check
+  },
   reducers: {
-    // Called after successful login or register
+    // Called after successful login, register, or session restore
     setCredentials: (state, action) => {
-      state.user = action.payload.user
-      state.isAuthenticated = true
-      state.isLoading = false
+      state.user          = action.payload.user
+      state.isInitialized = true
+      state.isLoading     = false
     },
-
-    // Called after logout
+    // Called after logout OR when /api/auth/me returns 401 (no session)
     logout: (state) => {
-      state.user = null
-      state.isAuthenticated = false
-      state.isLoading = false
+      state.user          = null
+      state.isInitialized = true
+      state.isLoading     = false
     },
-
-    // Called while checking auth status on page load
+    // Called while a login/register API call is in progress
     setAuthLoading: (state, action) => {
       state.isLoading = action.payload
     },
