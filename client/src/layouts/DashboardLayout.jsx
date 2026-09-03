@@ -24,9 +24,16 @@ const workerLinks = [
   { to: '/dashboard/worker/pricing',      label: '💰 Pricing'            },
 ]
 
+const adminLinks = [
+  { to: '/admin', label: '👑 Admin Dashboard', end: true },
+]
+
 const DashboardLayout = ({ children }) => {
   const { user } = useSelector(state => state.auth)
-  const links = user?.role === 'worker' ? workerLinks : customerLinks
+  
+  let links = customerLinks
+  if (user?.role === 'worker') links = workerLinks
+  if (user?.role === 'admin')  links = adminLinks
 
   return (
     <div className="min-h-screen flex flex-col bg-gray-50">

@@ -287,3 +287,31 @@ export const updateMyPricing = async (req, res, next) => {
     next(error)
   }
 }
+// ── ADMIN ROUTES ──────────────────────────────────
+export const getPendingWorkers = async (req, res, next) => {
+  try {
+    const workers = await Worker.find({ status: 'pending' })
+      .populate('user', 'name email phone profileImage createdAt')
+      .sort({ createdAt: 1 })
+      .lean()
+    return sendSuccess(res, { workers, count: workers.length })
+  } catch (error) { next(error) }
+}
+
+export const updateWorkerStatus = async (req, res, next) => {
+  try {
+    const { status } = req.body
+    if (!['approved', 'rejected'].includes(status)) {
+      return sendError(res, 'Invalid status.', 400)
+    }
+
+    const worker = await Worker.findByIdAndUpdate(
+      req.params.id,
+      { status },
+      { new: true }
+    )
+    if (!worker) return sendError(res, 'Worker not found', 404)
+
+    return sendSuccess(res, { worker }, `Worker profile marked as ${status}.`)
+  } catch (error) { next(error) }
+}

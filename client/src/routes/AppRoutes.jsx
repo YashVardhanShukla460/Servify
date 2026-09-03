@@ -23,6 +23,9 @@ import WorkerProfilePage from '../pages/WorkerProfilePage'
 import BookingPage       from '../pages/BookingPage'
 import NotFoundPage      from '../pages/NotFoundPage'
 
+// Admin dashboard
+import AdminDashboardPage from '../pages/admin/AdminDashboardPage'
+
 // Customer dashboard
 import DashboardPage  from '../pages/dashboard/DashboardPage'
 import ProfilePage    from '../pages/dashboard/ProfilePage'
@@ -51,6 +54,15 @@ const AppRoutes = () => {
         <ProtectedRoute>
           <RoleRoute role="customer">
             <BookingPage />
+          </RoleRoute>
+        </ProtectedRoute>
+      } />
+
+      {/* ── Admin dashboard (requires login + admin role) ── */}
+      <Route path="/admin" element={
+        <ProtectedRoute>
+          <RoleRoute role="admin">
+            <AdminDashboardPage />
           </RoleRoute>
         </ProtectedRoute>
       } />

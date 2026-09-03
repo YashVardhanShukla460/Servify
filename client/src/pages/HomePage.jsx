@@ -13,7 +13,7 @@
  */
 
 import { useState, useEffect } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import MainLayout from '../layouts/MainLayout'
 import ServiceCard from '../components/common/ServiceCard'
 import Spinner from '../components/common/Spinner'
@@ -21,6 +21,7 @@ import { fetchCategories } from '../services/categoryService'
 import { fetchFeaturedServices } from '../services/serviceService'
 
 const HomePage = () => {
+  const navigate = useNavigate()
   const [categories,        setCategories]        = useState([])
   const [featuredServices,  setFeaturedServices]  = useState([])
   const [loadingCats,       setLoadingCats]       = useState(true)
@@ -56,6 +57,26 @@ const HomePage = () => {
           <p className="text-blue-100 text-lg md:text-xl max-w-xl mx-auto mb-10">
             Book verified professionals for cleaning, electrical, plumbing, beauty, tutoring and more.
           </p>
+          
+          {/* Global Search Bar */}
+          <form 
+            onSubmit={(e) => {
+              e.preventDefault()
+              const q = e.target.search.value.trim()
+              if (q) navigate(`/services?search=${encodeURIComponent(q)}`)
+            }} 
+            className="max-w-2xl mx-auto mb-10 flex bg-white rounded-xl shadow-lg overflow-hidden p-1">
+            <input 
+              name="search"
+              type="text" 
+              placeholder="Search for 'AC Repair', 'Plumber', 'Sofa Cleaning'..." 
+              className="flex-1 px-4 py-3 text-gray-900 focus:outline-none"
+            />
+            <button type="submit" className="bg-blue-600 text-white px-6 py-3 rounded-lg font-medium hover:bg-blue-700 transition-colors">
+              Search
+            </button>
+          </form>
+
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link to="/services" className="btn-primary bg-white text-blue-700 hover:bg-blue-50 px-8 py-3 text-base">
               Browse Services

@@ -25,44 +25,26 @@ import {
   updateMyServices,
   updateMyAvailability,
   updateMyPricing,
+  getPendingWorkers,
+  updateWorkerStatus
 } from '../controllers/workerController.js'
 import { requireAuth, requireRole } from '../middleware/auth.js'
 
 const router = express.Router()
 
+// Admin routes (must be BEFORE /:id to avoid param conflict)
+router.get('/admin/pending', requireAuth, requireRole('admin'), getPendingWorkers)
+router.patch('/admin/:id/status', requireAuth, requireRole('admin'), updateWorkerStatus)
+
 // ── Public routes ──
 router.get('/', getWorkers)
 
 // ── Private worker routes (MUST be before /:id) ──
-router.get('/me',
-  requireAuth,
-  requireRole('worker'),
-  getMyWorkerProfile
-)
-
-router.patch('/me',
-  requireAuth,
-  requireRole('worker'),
-  updateMyProfile
-)
-
-router.patch('/me/services',
-  requireAuth,
-  requireRole('worker'),
-  updateMyServices
-)
-
-router.patch('/me/availability',
-  requireAuth,
-  requireRole('worker'),
-  updateMyAvailability
-)
-
-router.patch('/me/pricing',
-  requireAuth,
-  requireRole('worker'),
-  updateMyPricing
-)
+router.get('/me', requireAuth, requireRole('worker'), getMyWorkerProfile)
+router.patch('/me', requireAuth, requireRole('worker'), updateMyProfile)
+router.patch('/me/services', requireAuth, requireRole('worker'), updateMyServices)
+router.patch('/me/availability', requireAuth, requireRole('worker'), updateMyAvailability)
+router.patch('/me/pricing', requireAuth, requireRole('worker'), updateMyPricing)
 
 // ── Public param route (MUST be after /me routes) ──
 router.get('/:id', getWorkerById)
