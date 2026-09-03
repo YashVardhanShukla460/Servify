@@ -36,6 +36,7 @@ import connectDB from './src/config/db.js'
 
 // Routes
 import healthRoutes from './src/routes/healthRoutes.js'
+import authRoutes   from './src/routes/authRoutes.js'
 
 // Middleware
 import notFound from './src/middleware/notFound.js'
@@ -89,9 +90,9 @@ app.use(cookieParser())
 // Pattern: /api/<resource>  ->  <resource>Routes
 
 app.use('/api/health', healthRoutes)
+app.use('/api/auth',   authRoutes)
 
 // Future routes (added as we build each phase):
-// app.use('/api/auth',          authRoutes)
 // app.use('/api/users',         userRoutes)
 // app.use('/api/workers',       workerRoutes)
 // app.use('/api/categories',    categoryRoutes)

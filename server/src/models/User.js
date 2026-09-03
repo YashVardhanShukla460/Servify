@@ -98,13 +98,15 @@ userSchema.index({ role: 1, isActive: 1 })
 //
 // The `this` keyword refers to the document being saved.
 // We only hash if password was modified (prevents re-hashing on profile updates)
-userSchema.pre('save', async function (next) {
-  if (!this.isModified('password')) return next()
+// In modern Mongoose, async pre-hooks do NOT use next() — the returned Promise
+// signals Mongoose when the hook is complete. Using next() with async causes
+// "next is not a function" because Mongoose doesn't pass it for async hooks.
+userSchema.pre('save', async function () {
+  if (!this.isModified('password')) return
 
   // Hash the password with bcrypt (12 salt rounds = secure + not too slow)
   // Salt rounds: higher = more secure but slower. 12 is the industry standard.
   this.password = await bcrypt.hash(this.password, 12)
-  next()
 })
 
 // ─── Instance Method: Compare passwords ───

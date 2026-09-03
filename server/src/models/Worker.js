@@ -171,7 +171,7 @@ const workerSchema = new mongoose.Schema(
 )
 
 // ─── Indexes ───
-workerSchema.index({ user: 1 })               // Fast lookup by user ID
+// Note: user field already has a unique index from unique:true in schema definition
 workerSchema.index({ status: 1 })             // Admin queries pending workers
 workerSchema.index({ rating: -1 })            // Sort by rating (descending)
 workerSchema.index({ serviceAreas: 1 })       // Filter by location
