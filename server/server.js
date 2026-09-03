@@ -35,8 +35,10 @@ import dotenv from 'dotenv'
 import connectDB from './src/config/db.js'
 
 // Routes
-import healthRoutes from './src/routes/healthRoutes.js'
-import authRoutes   from './src/routes/authRoutes.js'
+import healthRoutes   from './src/routes/healthRoutes.js'
+import authRoutes     from './src/routes/authRoutes.js'
+import categoryRoutes from './src/routes/categoryRoutes.js'
+import serviceRoutes  from './src/routes/serviceRoutes.js'
 
 // Middleware
 import notFound from './src/middleware/notFound.js'
@@ -89,8 +91,10 @@ app.use(cookieParser())
 // Each route module handles a group of related endpoints.
 // Pattern: /api/<resource>  ->  <resource>Routes
 
-app.use('/api/health', healthRoutes)
-app.use('/api/auth',   authRoutes)
+app.use('/api/health',     healthRoutes)
+app.use('/api/auth',       authRoutes)
+app.use('/api/categories', categoryRoutes)
+app.use('/api/services',   serviceRoutes)
 
 // Future routes (added as we build each phase):
 // app.use('/api/users',         userRoutes)
