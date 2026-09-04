@@ -77,7 +77,7 @@ const RegisterPage = () => {
           <input
             name="name" type="text" required autoComplete="name"
             value={form.name} onChange={handleChange}
-            className="input-field" placeholder="Yash Vardhan Shukla"
+            className="input-field" placeholder="John Doe"
           />
         </div>
 

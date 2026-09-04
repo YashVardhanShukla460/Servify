@@ -1,15 +1,10 @@
 /* Import Google Font - Inter */
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
 
-/*
-  Tailwind CSS directives - these three lines are REQUIRED.
-  They tell Tailwind to inject its base styles, component styles, and utility classes.
-*/
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* Custom global styles */
 @layer base {
   * {
     box-sizing: border-box;
@@ -18,51 +13,49 @@
   }
 
   body {
-    @apply font-sans text-gray-800 bg-white;
+    @apply font-sans text-gray-800 bg-[#FAFAFC];
     -webkit-font-smoothing: antialiased;
   }
 
-  /* Smooth scrolling */
   html {
     scroll-behavior: smooth;
   }
 }
 
-/* Reusable component classes using Tailwind */
 @layer components {
   /* Primary button style */
   .btn-primary {
-    @apply bg-blue-600 text-white px-6 py-2.5 rounded-lg font-medium 
-           hover:bg-blue-700 active:bg-blue-800
-           transition-colors duration-200 
-           disabled:opacity-50 disabled:cursor-not-allowed;
+    @apply bg-blue-600 text-white px-6 py-2.5 rounded-xl text-sm font-semibold 
+           shadow-sm hover:shadow-md hover:bg-blue-700 active:bg-blue-800 hover:-translate-y-0.5
+           transition-all duration-200 
+           disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:translate-y-0 disabled:hover:shadow-sm;
   }
 
   /* Secondary / outline button */
   .btn-secondary {
-    @apply border border-blue-600 text-blue-600 px-6 py-2.5 rounded-lg font-medium 
-           hover:bg-blue-50 active:bg-blue-100
-           transition-colors duration-200
+    @apply bg-white border border-gray-200 text-gray-700 px-6 py-2.5 rounded-xl text-sm font-semibold 
+           shadow-sm hover:bg-gray-50 hover:text-blue-600 hover:border-blue-200
+           transition-all duration-200
            disabled:opacity-50 disabled:cursor-not-allowed;
   }
 
-  /* Text input field */
+  /* Text input field - modern style */
   .input-field {
-    @apply w-full border border-gray-300 rounded-lg px-4 py-2.5 text-gray-800
-           focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent
+    @apply w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-sm text-gray-900
+           focus:bg-white focus:outline-none focus:ring-4 focus:ring-blue-600/10 focus:border-blue-500
            placeholder:text-gray-400
-           disabled:bg-gray-100 disabled:cursor-not-allowed
+           disabled:bg-gray-100 disabled:text-gray-500 disabled:cursor-not-allowed
            transition-all duration-200;
   }
 
   /* Form label */
   .form-label {
-    @apply block text-sm font-medium text-gray-700 mb-1.5;
+    @apply block text-sm font-semibold text-gray-700 mb-1.5;
   }
 
   /* Card container */
   .card {
-    @apply bg-white rounded-xl shadow-sm border border-gray-100 p-6;
+    @apply bg-white rounded-2xl shadow-[0_2px_12px_rgba(0,0,0,0.04)] border border-gray-100 p-6;
   }
 
   /* Page container (max width + padding) */
@@ -77,6 +70,6 @@
 
   /* Badge */
   .badge {
-    @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium;
+    @apply inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold uppercase tracking-wider;
   }
 }
