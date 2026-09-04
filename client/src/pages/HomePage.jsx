@@ -44,17 +44,20 @@ const HomePage = () => {
     <MainLayout>
 
       {/* ── Hero Section ── */}
-      <section className="bg-gradient-to-br from-blue-600 via-blue-700 to-blue-800 text-white">
-        <div className="page-container py-20 text-center">
-          <div className="inline-block bg-white/10 text-white text-sm font-medium px-4 py-1.5
-                          rounded-full border border-white/20 mb-6">
-            🚀 Trusted by 50,000+ households across India
+      <section className="bg-slate-900 text-white relative overflow-hidden">
+        {/* Subtle background glow effect */}
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-blue-600/30 rounded-full blur-[100px] -z-0"></div>
+        
+        <div className="page-container py-24 text-center relative z-10">
+          <div className="inline-block bg-white/10 text-blue-200 text-sm font-medium px-4 py-1.5
+                          rounded-full border border-white/10 mb-8 backdrop-blur-sm">
+            ✨ Trusted by 50,000+ households across India
           </div>
-          <h1 className="text-4xl md:text-6xl font-extrabold mb-6 leading-tight">
+          <h1 className="text-4xl md:text-6xl font-extrabold mb-6 leading-tight tracking-tight">
             Home Services,<br />
-            <span className="text-blue-200">Done Right.</span>
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-300">Done Right.</span>
           </h1>
-          <p className="text-blue-100 text-lg md:text-xl max-w-xl mx-auto mb-10">
+          <p className="text-gray-300 text-lg md:text-xl max-w-xl mx-auto mb-10 leading-relaxed">
             Book verified professionals for cleaning, electrical, plumbing, beauty, tutoring and more.
           </p>
           
@@ -65,23 +68,23 @@ const HomePage = () => {
               const q = e.target.search.value.trim()
               if (q) navigate(`/services?search=${encodeURIComponent(q)}`)
             }} 
-            className="max-w-2xl mx-auto mb-10 flex bg-white rounded-xl shadow-lg overflow-hidden p-1">
+            className="max-w-2xl mx-auto mb-12 flex bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-1.5 shadow-2xl">
             <input 
               name="search"
               type="text" 
-              placeholder="Search for 'AC Repair', 'Plumber', 'Sofa Cleaning'..." 
-              className="flex-1 px-4 py-3 text-gray-900 focus:outline-none"
+              placeholder="Search for 'AC Repair', 'Plumber'..." 
+              className="flex-1 bg-transparent px-5 py-3 text-white placeholder:text-gray-400 focus:outline-none text-lg"
             />
-            <button type="submit" className="bg-blue-600 text-white px-6 py-3 rounded-lg font-medium hover:bg-blue-700 transition-colors">
+            <button type="submit" className="bg-blue-600 text-white px-8 py-3 rounded-xl font-semibold hover:bg-blue-500 transition-colors shadow-lg">
               Search
             </button>
           </form>
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link to="/services" className="btn-primary bg-white text-blue-700 hover:bg-blue-50 px-8 py-3 text-base">
+            <Link to="/services" className="bg-white text-slate-900 px-8 py-3.5 rounded-xl font-bold hover:bg-gray-50 transition-colors shadow-lg">
               Browse Services
             </Link>
-            <Link to="/register" className="btn-secondary border-white text-white hover:bg-white/10 px-8 py-3 text-base">
+            <Link to="/register" className="bg-transparent border-2 border-white/20 text-white px-8 py-3.5 rounded-xl font-bold hover:bg-white/10 transition-colors">
               Become a Professional
             </Link>
           </div>
@@ -192,15 +195,16 @@ const HomePage = () => {
       </section>
 
       {/* ── CTA: Become a Professional ── */}
-      <section className="bg-gray-900 py-16 text-white">
-        <div className="page-container text-center">
-          <h2 className="text-3xl font-bold mb-4">Are you a Service Professional?</h2>
-          <p className="text-gray-400 mb-8 max-w-lg mx-auto">
+      <section className="bg-slate-900 py-20 text-white relative overflow-hidden">
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[300px] bg-blue-600/20 rounded-full blur-[80px] -z-0"></div>
+        <div className="page-container text-center relative z-10">
+          <h2 className="text-3xl md:text-4xl font-extrabold mb-4">Are you a Service Professional?</h2>
+          <p className="text-gray-400 mb-10 max-w-lg mx-auto text-lg">
             Join Servify and get access to thousands of customers in your city.
             Set your own schedule, earn more.
           </p>
-          <Link to="/register" className="btn-primary px-8 py-3 text-base">
-            Join as a Professional →
+          <Link to="/register" className="bg-blue-600 text-white px-8 py-4 rounded-xl font-bold hover:bg-blue-500 transition-colors shadow-lg shadow-blue-900/20">
+            Join as a Professional  
           </Link>
         </div>
       </section>
