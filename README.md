@@ -1,125 +1,76 @@
-# Servify
+# Servify 🛠️
 
-A full-stack home services marketplace built with the MERN stack.
-Customers can discover and book verified service professionals for cleaning, electrical work, plumbing, AC repair, beauty services, tutoring, and more.
+![Servify Banner](https://images.unsplash.com/photo-1581578731548-c64695cc6952?q=80&w=1200&auto=format&fit=crop)
 
----
+Servify is a modern, full-stack (MERN) home services marketplace. It connects customers with verified local professionals for services like plumbing, electrical work, cleaning, and more. 
 
-## Project Status
-
-🚧 Currently in active development — following a phase-based approach.
-
----
-
-## User Roles
-
-| Role | Description |
-|------|-------------|
-| Customer | Browses and books services |
-| Worker | Receives and completes service bookings |
-| Admin | Manages the entire platform |
+### 🚀 Live Demo
+* **Frontend Application:** [View Live Website](https://servify.vercel.app) *(Note: Replace with your actual Vercel URL)*
+* **Backend API (Health Check):** [https://servify-449z.onrender.com/api/health](https://servify-449z.onrender.com/api/health)
+> **Note:** The backend is hosted on Render's free tier. If the API takes 30-50 seconds to respond on the first load, the server is just waking up from sleep!
 
 ---
 
-## Tech Stack
+## 🌟 Key Features
 
-**Frontend**
-- React 18 (Vite)
-- Tailwind CSS
-- React Router v6
-- Redux Toolkit
-- Axios
-
-**Backend**
-- Node.js
-- Express.js
-- MongoDB + Mongoose
-
-**Authentication**
-- JWT (JSON Web Tokens)
-- HTTP-only cookies
-- bcrypt password hashing
+* **Multi-Role Authentication:** Secure login for Customers, Workers, and Admins using HTTP-only JWT cookies.
+* **Smart Booking System:** Multi-step booking flow with automated conflict detection to prevent double-booking a professional's time slot.
+* **Role-Based Dashboards:** 
+  * **Customers:** Manage saved addresses, view booking history, and leave reviews.
+  * **Workers:** Accept/reject incoming requests, manage custom service pricing, update weekly availability, and edit their public profile.
+  * **Admins:** Approve or reject pending worker registrations to maintain platform quality.
+* **Dynamic Search & Filtering:** Filter services by category, or search for specific professionals based on location and rating.
+* **Review & Rating System:** Customers can leave 1-5 star reviews on completed jobs, dynamically updating the professional's overall rating.
+* **Real-time Notifications:** In-app notification bell alerts users immediately when a booking status changes.
 
 ---
 
-## Features
+## 💻 Tech Stack
 
-### Customer
-- Browse and search services by category, price, rating
-- View worker profiles and ratings
-- Book services with date and time slot selection
-- Manage addresses
-- View and cancel bookings
-- Review and rate completed bookings
-
-### Worker
-- Register and get approved by admin
-- Set availability and service areas
-- Accept or reject booking requests
-- View earnings and reviews
-
-### Admin
-- Approve or reject worker applications
-- Manage categories, services, users, bookings, reviews
+* **Frontend:** React (Vite), Tailwind CSS, Redux Toolkit, React Router v6
+* **Backend:** Node.js, Express.js
+* **Database:** MongoDB (Mongoose ODM)
+* **Authentication:** JSON Web Tokens (JWT) & bcryptjs
+* **Deployment:** Vercel (Frontend) & Render (Backend)
 
 ---
 
-## Project Structure
+## 🛠️ Local Setup
 
-```
-Servify/
-  client/       React frontend (Vite)
-  server/       Node.js + Express backend
-  docs/         Architecture and design documentation
-  .gitignore
-  .env.example
-  README.md
-```
+1. **Clone the repository**
+   ```bash
+   git clone https://github.com/YashVardhanShukla460/Servify.git
+   cd Servify
+   ```
 
----
+2. **Setup Backend**
+   ```bash
+   cd server
+   npm install
+   ```
+   Create a `.env` file in the `server` directory:
+   ```env
+   PORT=5000
+   MONGO_URI=your_mongodb_connection_string
+   JWT_SECRET=your_super_secret_key
+   CLIENT_URL=http://localhost:5173
+   NODE_ENV=development
+   ```
 
-## Getting Started
+3. **Setup Frontend**
+   ```bash
+   cd ../client
+   npm install
+   ```
+   Create a `.env` file in the `client` directory:
+   ```env
+   VITE_API_URL=http://localhost:5000
+   ```
 
-> Detailed setup instructions will be added as the project progresses through each phase.
-
-### Prerequisites
-- Node.js v18+
-- MongoDB Atlas account (or local MongoDB)
-- Git
-
-### Environment Variables
-Copy `.env.example` to create your own `.env`:
-```bash
-# In server/
-cp .env.example .env
-
-# In client/
-cp .env.example .env
-```
-
-Fill in your real values. **Never commit `.env` to Git.**
-
----
-
-## Documentation
-
-| Document | Description |
-|----------|-------------|
-| [Project Plan](docs/PROJECT_PLAN.md) | Full feature list and roadmap |
-| [Architecture](docs/ARCHITECTURE.md) | System design and component diagrams |
-| [Database](docs/DATABASE.md) | MongoDB models and relationships |
-| [API](docs/API.md) | REST API endpoint documentation |
-| [Decisions](docs/DECISIONS.md) | Why we chose each technology |
-| [Development Log](docs/DEVELOPMENT_LOG.md) | Phase-by-phase progress |
+4. **Run the Application**
+   Open two terminals:
+   * Terminal 1 (Backend): `cd server && node server.js`
+   * Terminal 2 (Frontend): `cd client && npm run dev`
 
 ---
-
-## Screenshots
-
-> Coming soon as each phase is completed.
-
----
-
-## License
-
-This project is for educational and portfolio purposes.
+*Designed and built by Yash Vardhan Shukla.*
