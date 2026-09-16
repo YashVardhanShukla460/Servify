@@ -5,7 +5,7 @@
 Servify is a modern, full-stack (MERN) home services marketplace. It connects customers with verified local professionals for services like plumbing, electrical work, cleaning, and more. 
 
 ### 🚀 Live Demo
-* **Frontend Application:** [View Live Website](https://servify.vercel.app) *(Note: Replace with your actual Vercel URL)*
+* **Frontend Application:** [https://servify-delta.vercel.app](https://servify-delta.vercel.app)
 * **Backend API (Health Check):** [https://servify-449z.onrender.com/api/health](https://servify-449z.onrender.com/api/health)
 > **Note:** The backend is hosted on Render's free tier. If the API takes 30-50 seconds to respond on the first load, the server is just waking up from sleep!
 
