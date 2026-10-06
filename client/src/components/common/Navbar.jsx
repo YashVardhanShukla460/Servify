@@ -21,13 +21,17 @@ const Navbar = () => {
   const [unreadCount, setUnreadCount] = useState(0)
   const notifRef = useRef()
 
-  useEffect(() => {
+  const fetchNotifs = () => {
     if (user) {
       getNotifications().then(d => {
         setNotifications(d.notifications)
         setUnreadCount(d.unreadCount)
       }).catch(() => {})
     }
+  }
+
+  useEffect(() => {
+    fetchNotifs()
   }, [user])
 
   // Close dropdown on outside click
@@ -88,7 +92,11 @@ const Navbar = () => {
               {/* Notification Bell */}
               <div className="relative" ref={notifRef}>
                 <button 
-                  onClick={() => setNotifOpen(!notifOpen)}
+                  onClick={() => {
+                    const opening = !notifOpen
+                    setNotifOpen(opening)
+                    if (opening) fetchNotifs() // Refresh on every open
+                  }}
                   className="relative p-2 text-gray-500 hover:bg-gray-100 rounded-full transition-colors">
                   <span className="text-xl">🔔</span>
                   {unreadCount > 0 && (

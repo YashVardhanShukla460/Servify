@@ -95,12 +95,12 @@ const DashboardPage = () => {
                   </div>
                   <div>
                     <span className="font-medium text-gray-700 block mb-1">Schedule</span>
-                    <div>{new Date(b.date).toLocaleDateString()}</div>
+                    <div>{new Date(b.date).toLocaleDateString('en-IN', { timeZone: 'UTC', day: '2-digit', month: 'short', year: 'numeric' })}</div>
                     <div>{b.startTime} - {b.endTime}</div>
                   </div>
                   <div>
                     <span className="font-medium text-gray-700 block mb-1">Amount</span>
-                    <div className="font-bold text-gray-900">₹{b.totalAmount}</div>
+                    <div className="font-bold text-gray-900">₹{b.totalPrice}</div>
                   </div>
                 </div>
               </div>
@@ -111,8 +111,11 @@ const DashboardPage = () => {
                     Cancel Booking
                   </button>
                 )}
-                {b.status === 'completed' && (
+                {b.status === 'completed' && !b.review && (
                   <button onClick={() => setReviewBooking(b)} className="btn-primary py-1.5 text-sm">Leave Review</button>
+                )}
+                {b.status === 'completed' && b.review && (
+                  <span className="text-xs text-green-600 font-medium">✓ Reviewed</span>
                 )}
               </div>
             </div>

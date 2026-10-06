@@ -66,26 +66,20 @@ export const createBooking = async (req, res, next) => {
       customer: customerId,
       worker: workerId,
       service: serviceId,
-      address: {
-        addressLine1: address.addressLine1,
-        addressLine2: address.addressLine2,
-        city: address.city,
-        state: address.state,
-        pincode: address.pincode
-      },
+      address: addressId,
       date: bookingDate,
       startTime: timeSlot.start,
       endTime: timeSlot.end,
-      totalAmount: price,
+      totalPrice: price,
       notes: notes?.trim()
     })
 
     // 7. Notify worker
     await Notification.create({
-      user: worker.user, // Worker's User ID
+      recipient: worker.user, // Worker's User ID
       title: 'New Booking Request',
       message: `You have a new booking request for ${bookingDate.toLocaleDateString()}.`,
-      type: 'booking'
+      type: 'booking_created'
     })
 
     return sendSuccess(res, { booking }, 'Booking created successfully.', 201)
@@ -115,6 +109,7 @@ export const getWorkerBookings = async (req, res, next) => {
     const bookings = await Booking.find({ worker: worker._id })
       .populate('customer', 'name phone profileImage')
       .populate('service', 'name category')
+      .populate('address')
       .sort({ date: -1, createdAt: -1 })
       .lean()
 
@@ -147,6 +142,17 @@ export const updateBookingStatus = async (req, res, next) => {
       const worker = await Worker.findOne({ user: userId })
       if (booking.worker.toString() !== worker._id.toString()) return sendError(res, 'Unauthorized', 403)
       if (status === 'cancelled') return sendError(res, 'Workers must reject, not cancel.', 400)
+
+      const currentStatus = booking.status;
+      const invalidTransitionMsg = `Cannot change booking from ${currentStatus} to ${status}.`;
+
+      if (status === 'accepted' || status === 'rejected') {
+        if (currentStatus !== 'pending') return sendError(res, invalidTransitionMsg, 400);
+      } else if (status === 'in_progress') {
+        if (currentStatus !== 'accepted') return sendError(res, invalidTransitionMsg, 400);
+      } else if (status === 'completed') {
+        if (currentStatus !== 'in_progress') return sendError(res, invalidTransitionMsg, 400);
+      }
     }
 
     booking.status = status
@@ -158,10 +164,10 @@ export const updateBookingStatus = async (req, res, next) => {
       : booking.customer // If worker updated, notify customer
 
     await Notification.create({
-      user: targetUserId,
+      recipient: targetUserId,
       title: `Booking ${status}`,
       message: `A booking for ${new Date(booking.date).toLocaleDateString()} has been marked as ${status}.`,
-      type: 'status_update'
+      type: `booking_${status}` // e.g. booking_accepted, booking_cancelled
     })
 
     return sendSuccess(res, { booking }, `Booking marked as ${status}.`)

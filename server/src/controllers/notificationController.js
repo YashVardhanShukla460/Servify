@@ -4,12 +4,12 @@ import { sendSuccess, sendError } from '../utils/response.js'
 // ── GET NOTIFICATIONS ─────────────────────────
 export const getNotifications = async (req, res, next) => {
   try {
-    const notifications = await Notification.find({ user: req.user.userId })
+    const notifications = await Notification.find({ recipient: req.user.userId })
       .sort({ createdAt: -1 })
       .limit(50)
       .lean()
 
-    const unreadCount = await Notification.countDocuments({ user: req.user.userId, isRead: false })
+    const unreadCount = await Notification.countDocuments({ recipient: req.user.userId, isRead: false })
 
     return sendSuccess(res, { notifications, unreadCount })
   } catch (error) { next(error) }
@@ -19,7 +19,7 @@ export const getNotifications = async (req, res, next) => {
 export const markAsRead = async (req, res, next) => {
   try {
     const notification = await Notification.findOneAndUpdate(
-      { _id: req.params.id, user: req.user.userId },
+      { _id: req.params.id, recipient: req.user.userId },
       { isRead: true },
       { new: true }
     )
@@ -33,7 +33,7 @@ export const markAsRead = async (req, res, next) => {
 export const markAllAsRead = async (req, res, next) => {
   try {
     await Notification.updateMany(
-      { user: req.user.userId, isRead: false },
+      { recipient: req.user.userId, isRead: false },
       { isRead: true }
     )
     return sendSuccess(res, {}, 'All notifications marked as read.')

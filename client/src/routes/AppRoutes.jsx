@@ -21,6 +21,7 @@ import ServicesPage      from '../pages/ServicesPage'
 import WorkersPage       from '../pages/WorkersPage'
 import WorkerProfilePage from '../pages/WorkerProfilePage'
 import BookingPage       from '../pages/BookingPage'
+import ServiceDetailPage from '../pages/ServiceDetailPage'
 import NotFoundPage      from '../pages/NotFoundPage'
 
 // Admin dashboard
@@ -47,6 +48,7 @@ const AppRoutes = () => {
       <Route path="/login"       element={<LoginPage />} />
       <Route path="/register"    element={<RegisterPage />} />
       <Route path="/services"    element={<ServicesPage />} />
+      <Route path="/services/:id" element={<ServiceDetailPage />} />
       <Route path="/workers"     element={<WorkersPage />} />
       <Route path="/workers/:id" element={<WorkerProfilePage />} />
 

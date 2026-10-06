@@ -17,6 +17,7 @@
 
 import User from '../models/User.js'
 import Worker from '../models/Worker.js'
+import Notification from '../models/Notification.js'
 import { generateToken } from '../utils/jwt.js'
 import { setTokenCookie, clearTokenCookie } from '../utils/cookie.js'
 import { sendSuccess, sendError } from '../utils/response.js'
@@ -55,7 +56,19 @@ export const register = async (req, res, next) => {
     //    The worker profile starts with status: 'pending' (needs admin approval)
     if (role === 'worker') {
       await Worker.create({ user: user._id })
-      // Worker profile is empty for now — they fill it in their dashboard (Phase 8)
+
+      // Notify all admins that a new worker is awaiting approval
+      const admins = await User.find({ role: 'admin', isActive: true }).select('_id').lean()
+      if (admins.length > 0) {
+        await Notification.insertMany(
+          admins.map(admin => ({
+            recipient: admin._id,
+            title: 'New Worker Registration',
+            message: `${user.name} has registered as a worker and is awaiting your approval.`,
+            type: 'general',
+          }))
+        )
+      }
     }
 
     // 4. Generate JWT token with userId and role in the payload

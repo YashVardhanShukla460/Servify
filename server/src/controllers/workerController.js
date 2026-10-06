@@ -16,6 +16,7 @@
 import Worker from '../models/Worker.js'
 import User   from '../models/User.js'
 import Review from '../models/Review.js'
+import Notification from '../models/Notification.js'
 import { sendSuccess, sendError } from '../utils/response.js'
 
 // ─────────────────────────────────────────────
@@ -312,6 +313,50 @@ export const updateWorkerStatus = async (req, res, next) => {
     )
     if (!worker) return sendError(res, 'Worker not found', 404)
 
+    // Notify the worker about the decision
+    await Notification.create({
+      recipient: worker.user,
+      title: status === 'approved' ? '🎉 Profile Approved!' : 'Profile Rejected',
+      message: status === 'approved'
+        ? 'Congratulations! Your worker profile has been approved. You can now receive bookings.'
+        : 'Your worker profile was not approved at this time. Please contact support for more information.',
+      type: status === 'approved' ? 'worker_approved' : 'worker_rejected',
+    })
+
     return sendSuccess(res, { worker }, `Worker profile marked as ${status}.`)
+  } catch (error) { next(error) }
+}
+
+// GET /api/workers/admin/approved — Admin only
+// Returns all approved workers (for service assignment panel)
+export const getApprovedWorkers = async (req, res, next) => {
+  try {
+    const workers = await Worker.find({ status: 'approved' })
+      .populate('user', 'name email profileImage')
+      .populate('services', 'name category')
+      .sort({ createdAt: -1 })
+      .lean()
+    return sendSuccess(res, { workers, count: workers.length })
+  } catch (error) { next(error) }
+}
+
+// PATCH /api/workers/admin/:id/services — Admin only
+// Assigns a list of service IDs to a worker
+export const assignWorkerServices = async (req, res, next) => {
+  try {
+    const { services } = req.body
+    if (!Array.isArray(services)) {
+      return sendError(res, 'services must be an array of service IDs.', 400)
+    }
+
+    const worker = await Worker.findByIdAndUpdate(
+      req.params.id,
+      { services },
+      { new: true }
+    ).populate('services', 'name category basePrice')
+
+    if (!worker) return sendError(res, 'Worker not found.', 404)
+
+    return sendSuccess(res, { worker }, 'Services assigned to worker.')
   } catch (error) { next(error) }
 }

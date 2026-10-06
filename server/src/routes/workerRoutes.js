@@ -26,15 +26,19 @@ import {
   updateMyAvailability,
   updateMyPricing,
   getPendingWorkers,
-  updateWorkerStatus
+  updateWorkerStatus,
+  getApprovedWorkers,
+  assignWorkerServices
 } from '../controllers/workerController.js'
 import { requireAuth, requireRole } from '../middleware/auth.js'
 
 const router = express.Router()
 
 // Admin routes (must be BEFORE /:id to avoid param conflict)
-router.get('/admin/pending', requireAuth, requireRole('admin'), getPendingWorkers)
-router.patch('/admin/:id/status', requireAuth, requireRole('admin'), updateWorkerStatus)
+router.get('/admin/pending',           requireAuth, requireRole('admin'), getPendingWorkers)
+router.get('/admin/approved',          requireAuth, requireRole('admin'), getApprovedWorkers)
+router.patch('/admin/:id/status',      requireAuth, requireRole('admin'), updateWorkerStatus)
+router.patch('/admin/:id/services',    requireAuth, requireRole('admin'), assignWorkerServices)
 
 // ── Public routes ──
 router.get('/', getWorkers)

@@ -66,9 +66,9 @@ const WorkerBookingsPage = () => {
                   </span>
                 </div>
                 <div className="text-sm text-gray-600 space-y-1">
-                  <div><span className="font-medium">Date:</span> {new Date(b.date).toLocaleDateString()}</div>
+                  <div><span className="font-medium">Date:</span> {new Date(b.date).toLocaleDateString('en-IN', { timeZone: 'UTC', day: '2-digit', month: 'short', year: 'numeric' })}</div>
                   <div><span className="font-medium">Time:</span> {b.startTime} - {b.endTime}</div>
-                  <div><span className="font-medium">Price:</span> ₹{b.totalAmount}</div>
+                  <div><span className="font-medium">Price:</span> ₹{b.totalPrice}</div>
                   {b.notes && <div><span className="font-medium">Notes:</span> {b.notes}</div>}
                 </div>
               </div>
@@ -82,6 +82,9 @@ const WorkerBookingsPage = () => {
                   </>
                 )}
                 {b.status === 'accepted' && (
+                  <button onClick={() => handleStatus(b._id, 'in_progress')} className="btn-primary py-1.5 text-sm bg-blue-600 hover:bg-blue-700">Start Job</button>
+                )}
+                {b.status === 'in_progress' && (
                   <button onClick={() => handleStatus(b._id, 'completed')} className="btn-primary py-1.5 text-sm bg-green-600 hover:bg-green-700">Mark Completed</button>
                 )}
               </div>

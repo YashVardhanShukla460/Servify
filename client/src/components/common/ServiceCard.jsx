@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom'
 
 const ServiceCard = ({ service }) => {
   return (
-    <Link to={`/services?category=${service.category?._id}`} className="group block h-full">
+    <Link to={`/services/${service._id}`} className="group block h-full">
       <div className="bg-white rounded-2xl shadow-[0_2px_12px_rgba(0,0,0,0.04)] border border-gray-100 overflow-hidden 
                     hover:shadow-xl hover:border-blue-100 hover:-translate-y-1 transition-all duration-300 h-full flex flex-col">
         

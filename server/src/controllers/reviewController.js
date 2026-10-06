@@ -29,9 +29,13 @@ export const createReview = async (req, res, next) => {
       booking: bookingId,
       worker: booking.worker,
       customer: customerId,
+      service: booking.service, // required by Review schema
       rating,
       comment: comment?.trim()
     })
+
+    // 4. Link the review back to the booking so UI can hide 'Leave Review' button
+    await Booking.findByIdAndUpdate(bookingId, { review: review._id })
 
     return sendSuccess(res, { review }, 'Review submitted successfully.', 201)
   } catch (error) { next(error) }

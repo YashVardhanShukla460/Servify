@@ -38,6 +38,7 @@ const notificationSchema = new mongoose.Schema(
         'booking_accepted',
         'booking_rejected',
         'booking_cancelled',
+        'booking_in_progress',
         'booking_completed',
         'worker_approved',
         'worker_rejected',
